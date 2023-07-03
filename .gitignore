@@ -1,0 +1,15 @@
+# Project place file
+/maze-test-place.rbxlx
+
+# Roblox Studio lock files
+/*.rbxlx.lock
+/*.rbxl.lock
+
+# Packages
+/*.Packages
+/*.ServerPackages
+
+# moonwave
+build
+node_modules
+src

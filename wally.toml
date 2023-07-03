@@ -1,0 +1,13 @@
+[package]
+name = "neond00m/neonet"
+version = "1.4.2"
+license = "MIT"
+registry = "https://github.com/UpliftGames/wally-index"
+realm = "shared"
+
+[place]
+shared-packages = 'game:GetService("ReplicatedStorage").Packages'
+
+[dependencies]
+
+[server-dependencies] #Server-dependencies for packages which have the server realm
