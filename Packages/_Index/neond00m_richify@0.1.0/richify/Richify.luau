@@ -35,7 +35,7 @@ local tagsToRich = {
 local function actual(str: string, index: number) : number
 	local inTag = false
 	local direction = if index < 0 then -1 else 1
-	for i = if index < 0 then str:len() else 1, 
+	for i = if index < 0 then str:len() else 1,
 		if index < 0 then 1 else str:len(), direction do
 
 		local ch = str:sub(i, i)
@@ -44,17 +44,18 @@ local function actual(str: string, index: number) : number
 				index -= 1
 				inTag = false
 			end
+			-- index -= 1
 		elseif ch == "<" then
 			inTag = true
 		else
 			index -= direction
 		end
-		
+
 		if index == 0 and inTag == false then
 			return i
 		end
 	end
-	return actual(str, index) --loo
+	return index--actual(str, index) --loo (Does that mean loop?)
 end
 
 local function split(self, index: number | nil) --split self.str in half
@@ -68,13 +69,17 @@ local function split(self, index: number | nil) --split self.str in half
 		}
 	end
 	--need to return 3 pieces: before self.s, in between, after self.e
+
+	local divider1 = actual(self.string, (self.s or 1) + 1)
+	local divider2 = actual(self.string, (self.e or len) - 1)
+
 	return {
 		--what if self.s < 0
-		if (self.s or 0) > 0 then self.string:sub(0, actual(self.string, self.s)) else "",
+		if len > 1 then self.string:sub(0, divider1 - 1) else "",
 		--
-		self.string:sub(actual(self.string, (self.s or (if self.string:len() < 2 then 0 else 1)) + 1), actual(self.string, (self.e or len))), --between string, whole if no start and no end
+		self.string:sub(divider1, divider2), --between string, whole if no start and no end
 		--
-		if (self.e or len) < len then self.string:sub(actual(self.string, self.e + 1), len) else "",
+		if len > 1 then self.string:sub(divider2 + 1, len) else "",
 	}
 end
 
@@ -94,6 +99,7 @@ end
     ```
 ]=]
 local function richify(string): Richify
+	print("creating:", string)
 	return setmetatable({
 		string = string,
 		-- edit = nil,
@@ -137,9 +143,7 @@ meta.__call = function(self, value: RichifyInputType)
 			self.edit = function(self, color)
 				print("color edit")
 				local pieces = split(self)
-				print("p1:", pieces[1])
-				print("p2:", pieces[2])
-				print("p3:", pieces[3])
+				print("pieces:", pieces)
 				self.string = pieces[1] .. '<font color="rgb(' .. clr_tostring(color) .. ')">' .. pieces[2]
 					.. "</font>" .. pieces[3]
 				self.edit = nil
@@ -175,6 +179,7 @@ meta.__call = function(self, value: RichifyInputType)
 				value = tagsToRich[value]
 			end
 			local pieces = split(self)
+			print("pieces:", pieces)
 			self.string = pieces[1] .. "<" .. value .. ">" .. pieces[2] .. "</" .. value .. ">" .. pieces[3]
 		end
 	end

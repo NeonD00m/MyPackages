@@ -26,11 +26,8 @@ return function(time: number): boolean
     local file, line = debug.info(2, "sl")
     local name = file .. ":" .. tostring(line)
 
-    print("throttle debug: clock:", os.clock(), ", system:", systems[name])
     if systems[name] then
-        print("    comparison:", systems[name] + time, "<", os.clock())
-        print("    resulting boolean:", systems[name] + time < os.clock())
-        if systems[name] + time < os.clock() then
+        if systems[name] + time > os.clock() then
             return false
         end
     end

@@ -18,8 +18,9 @@ local count = 0
 
 local function updateText()
     print("count:", count, tostring(count))
-    Label.Text = Richify(tostring(count)) "b" "color" (Color3.fromRGB(0, 251, 255)).string .. " Clicks"
+    Label.Text = Richify(tostring(count)) "bold" "color" (Color3.fromRGB(0, 251, 255)).string .. " Clicks"
 end
+updateText()
 
 RunService.Heartbeat:Connect(function()
     for _, plr in read() do
