@@ -208,7 +208,7 @@ end
 	local doubled = (Element * 2):result(someNumber)
 	```
 ]=]
-function module:result(e: Element, x: any)
+function module.result(e: Element, x: any)
 	for _, op in e.ops do
 		if op[1] == "." then
 			x = x[op[2]]

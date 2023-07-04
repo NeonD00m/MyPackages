@@ -71,10 +71,15 @@ local function split(self, index: number | nil) --split self.str in half
 	return {
 		--what if self.s < 0
 		if (self.s or 0) > 0 then self.string:sub(0, actual(self.string, self.s)) else "",
-			self.string:sub(actual(self.string, (self.s or 0) + 1),
-				actual(self.string, (self.e or len))), --between string, whole if no start and no end
+		--
+		self.string:sub(actual(self.string, (self.s or (if self.string:len() < 2 then 0 else 1)) + 1), actual(self.string, (self.e or len))), --between string, whole if no start and no end
+		--
 		if (self.e or len) < len then self.string:sub(actual(self.string, self.e + 1), len) else "",
 	}
+end
+
+local function clr_tostring(color: Color3): string
+	return tostring(math.round(color.R * 255)) .. "," .. tostring(math.round(color.G * 255)) .. "," .. tostring(math.round(color.B * 255))
 end
 
 --[=[
@@ -120,15 +125,22 @@ end
 ]=]
 meta.__call = function(self, value: RichifyInputType)
 	if self.edit then --if previous statement requires another parameter
-		return self:edit(value)
+		local result = self:edit(value)
+		print("str:", self.string)
+		return result
 	else
 		if type(value) == "table" then --edit section of string
 			self.s = value[1]
 			self.e = value[2]
 		elseif value == "color" then
+			print("color")
 			self.edit = function(self, color)
+				print("color edit")
 				local pieces = split(self)
-				self.string = pieces[1] .. '<font color="rgb(' .. tostring(color) .. ')">' .. pieces[2]
+				print("p1:", pieces[1])
+				print("p2:", pieces[2])
+				print("p3:", pieces[3])
+				self.string = pieces[1] .. '<font color="rgb(' .. clr_tostring(color) .. ')">' .. pieces[2]
 					.. "</font>" .. pieces[3]
 				self.edit = nil
 				return self
@@ -158,6 +170,7 @@ meta.__call = function(self, value: RichifyInputType)
 				return self
 			end
 		else --assume it is a rich text tag?
+			print("tag")
 			if tagsToRich[value] then --correct tag, ex: 'bold' to 'b'
 				value = tagsToRich[value]
 			end
@@ -165,6 +178,7 @@ meta.__call = function(self, value: RichifyInputType)
 			self.string = pieces[1] .. "<" .. value .. ">" .. pieces[2] .. "</" .. value .. ">" .. pieces[3]
 		end
 	end
+	print("str:", self.string)
 	return self
 end
 

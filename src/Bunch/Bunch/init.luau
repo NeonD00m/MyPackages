@@ -94,6 +94,7 @@ end
 	```
 ]=]
 function Bunch:filter<T>(operations: Element.Element): Bunch<T>
+	print("Bunch:filter got self:", self, " and Element ops:", operations.ops)
 	for i, v in self do
 		if operations:result(v) then
 			continue

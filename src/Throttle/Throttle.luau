@@ -22,10 +22,11 @@ local systems: {[string]: number} = {}
     ```
 ]=]
 return function(time: number): boolean
+    assert(time, "[Throttle] No 'time' argument provided, please provide a number in seconds to wait.")
     local file, line = debug.info(2, "sl")
     local name = file .. ":" .. tostring(line)
 
-    if systems[name] ~= nil or systems[name] + time < os.clock() then
+    if systems[name] ~= nil and systems[name] + time < os.clock() then
         return false
     end
     systems[name] = os.clock()
