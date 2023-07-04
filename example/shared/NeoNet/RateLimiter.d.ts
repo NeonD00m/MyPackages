@@ -1,1 +1,0 @@
-export type RateLimiter = (maxRequests: number, isPerSeconds: boolean | null) => (Player, {number: any}) => boolean

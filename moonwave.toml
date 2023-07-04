@@ -1,16 +1,16 @@
-title = "NeoNet"  # From Git
-gitRepoUrl = "https://github.com/NeonD00m/NeoNet" # From Git
+title = "MyPackages"  # From Git
+gitRepoUrl = "https://github.com/NeonD00m/MyPackages" # From Git
 
 gitSourceBranch = "main"
 changelog = true
 classOrder = []
 
-[[classOrder]]
-classes = ["NeoNet"]
+# [[classOrder]]
+# classes = ["Richify", "Throttle", "EventReader"]
 
 [[classOrder]]
-section = "Middleware"
-classes = ["RateLimiter", "TypeChecker"]
+section = "Bunch"
+classes = ["Bunch", "Element"]
 
 [docusaurus]
 onBrokenLinks = "throw"
@@ -19,20 +19,20 @@ favicon = "https://lh3.googleusercontent.com/fife/AAbDypDBmFTG-xxYOBWpp2ts_Pqkrb
 
 # From git:
 organizationName = "NeonD00m"
-projectName = "NeoNet"
+projectName = "MyPackages"
 url = "https://neond00m.github.io"
-baseUrl = "/NeoNet/"
-tagline = "Simple yet powerful networking library"
+baseUrl = "/MyPackages/"
+tagline = "Some packages I made"
 
 # [navbar]
 # hideableSidebar = true
 
 [navbar]
-title = ""
+title = "MyPackages"
 
-[navbar.logo]
-alt = "NeoNet"
-src = "https://cdn.discordapp.com/attachments/997871955199926386/1011762294658715808/NeoNetLogoFull478x256.png"
+# [navbar.logo]
+# alt = "NeoNet"
+# src = "https://cdn.discordapp.com/attachments/997871955199926386/1011762294658715808/NeoNetLogoFull478x256.png"
 
 # [[navbar.items]]
 # href = "https://discord.gg/eJAHVeEPkq"
@@ -46,7 +46,7 @@ position = "right"
 
 [footer]
 style = "dark"
-copyright = "Copyright © 2022 NeonD00m. Built with Moonwave and Docusaurus"
+copyright = "Copyright © 2023 NeonD00m. Built with Moonwave and Docusaurus"
 
 # [[footer.links]]
 # title = "examples"

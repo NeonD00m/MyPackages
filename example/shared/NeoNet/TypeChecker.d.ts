@@ -1,1 +1,0 @@
-export type TypeChecker = (types: {number: string}) => (Player, {number: any}) => boolean

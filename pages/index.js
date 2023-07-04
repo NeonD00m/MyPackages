@@ -118,11 +118,12 @@ function HomepageHeader() {
     <header className={clsx("hero", styles.heroBanner)}>
       <div className="container">
         <h1 className="hero__title">
-          <img
+          MyPackages
+          {/* <img
             src={"https://cdn.discordapp.com/attachments/997871955199926386/1011766015857799178/NeoNetLogoFull.png"}
             className="bigLogo"
             alt="NeoNet"
-          />
+          /> */}
         </h1>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
         <div className={styles.buttons}>
@@ -144,10 +145,8 @@ export default function Home() {
     <Layout title={siteConfig.title} description={tagline}>
       <HomepageHeader />
       <main>
-        <p className={styles.tagline}>
-          NeoNet is a networking module for Roblox. It simplifies the process of networking while also providing more utility. Based off of Net (sleitnick) with added features inspired by RbxNet (Vorlias) and Comm (sleitnick). Massive credit goes to all of those libraries.
-        </p>
-        <HomepageFeatures />
+        
+        {/* <HomepageFeatures /> */}
       </main>
     </Layout>
   );

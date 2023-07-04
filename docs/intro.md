@@ -1,29 +1,21 @@
 ---
-sidebar_position: 1
+sidebar_position: 3
 ---
 
-# NeoNet
+# Getting Started
 
-NeoNet is a networking module made to combine simple API with advanced utility.
+:::tip
+These modules are only available as [Wally](https://wally.run/) packages or by downloading it from Github because I'm too lazy to make roblox models for these things
+:::
 
-## Goals
+| Module | Dependency | Description |
+| -- | -- | -- |
+| [Bunch](https://neond00m.github.io/MyPackages/api/Bunch) | `Example = "neond00m/example@0.1.0"` | Collection library with a simplified lambda system |
+| [EventReader](https://neond00m.github.io/MyPackages/api/EventReader) | `Example = "neond00m/example@0.1.0"` | Module for events in loops (based on Matter.useEvent) |
+| [Richify](https://neond00m.github.io/MyPackages/api/Richify) | `Example = "neond00m/example@0.1.0"` | Rich-text customizing Library |
+| [Throttle](https://neond00m.github.io/MyPackages/api/Throttle) | `Example = "neond00m/example@0.1.0"` | Timer function (based on Matter.useThrottle) |
 
-- Simple, obvious API
-- Performant
-- Eliminating OOP and instances to save time for the developer
-- Steal all the cool ideas and modules from other libraries so that this is the best in every way.
+## Next steps
+You should dive in to the [API reference](/api/Bunch) for whatever you're interested in!
 
-## Non-goals
-
-- Many similar libraries, complicate the api a lot and result in having massive function calls to setup up remotes for the game, which is why simply calling :Connect for example will create the remote.
-- I don't want to provide a library that is bad.
-
-<!-- ## Performance today
-
-NeoNet currently achieves an average frame time of ___ms spent inside NeoNet code for the following benchmark: -->
-
-<!-- - World with 1000 entities
-- Between 2-30 components on each entity
-- 300 unique component types
-- 200 systems
-- Each system queries between 1 and 10 components -->
+Documentation will be improved on and added to with time.
