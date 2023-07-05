@@ -8,12 +8,12 @@ local systems: {[string]: number} = {}
 --[=[
     @within Throttle
     @function __call
-    @param time: number -- Time
+    @param timeOrName: number | string, time: number?
     @return boolean
 
     Returns true based on if it has been 'time' since the last success.
     :::caution
-    Throttles are saved based on the file name and file line they are called at.
+    Throttles are saved based on the file name and file line they are called at by default, include an identifier to use the same throttle in multiple places a shown below:
     :::
     ```lua
     while task.wait(0.1) do --a loop of some sort or maybe in an event
@@ -21,12 +21,18 @@ local systems: {[string]: number} = {}
             print("3 seconds have passed")
         end
     end
+    --Or if you want to use the same debounce/cooldown in multiple places:
+    Throttle("someUniqueIdentifier", 3)
     ```
 ]=]
-return function(time: number): boolean
+return function(timeOrName: number | string, time: number?): boolean
+    local name = timeOrName
+    if time == nil then
+        local file, line = debug.info(2, "sl")
+        name = file .. ":" .. tostring(line)
+        time = timeOrName
+    end
     assert(time, "[Throttle] No 'time' argument provided, please provide a number in seconds to wait.")
-    local file, line = debug.info(2, "sl")
-    local name = file .. ":" .. tostring(line)
 
     if systems[name] then
         if systems[name] + time > os.clock() then

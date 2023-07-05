@@ -94,6 +94,7 @@ end
 	```
 ]=]
 function Bunch:filter<T>(operations: Element.Element): Bunch<T>
+	print("Bunch:filter got self:", self, " and Element ops:", operations.ops)
 	for i, v in self do
 		if operations:result(v) then
 			continue
@@ -140,6 +141,29 @@ function Bunch:range<T>(from: number, to: number?): Bunch<T>?
 	local result = table.create(to - from)
 	for i = from, to or table.maxn(self) do
 		table.insert(result, self[i])
+	end
+	return Bunch.new(result)
+end
+
+--[=[
+	@within Bunch
+	Adds the non-numeric keys of 'other' into a new bunch unless they already exist in the bunch.
+	```lua
+	local mixed = someBunch:merge(anotherTable)
+	```
+]=]
+function Bunch:merge<T>(other: {}): Bunch<T>?
+	if self:isList() then
+		warn("[Bunch] Attempted to use Bunch:merge on a list object. Bunch:merge isn't implemented yet for lists.")
+		return
+	end
+
+	local result = {}
+	for i, v in other do
+		result[i] = v
+	end
+	for i, v in self do
+		result[i] = v
 	end
 	return Bunch.new(result)
 end

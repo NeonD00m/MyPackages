@@ -5,7 +5,7 @@ registry = "https://github.com/UpliftGames/wally-index"
 realm = "shared"
 
 [dependencies]
-Bunch = "neond00m/bunch@0.1.0"
+Bunch = "neond00m/bunch@0.2.0"
 EventReader = "neond00m/eventreader@0.1.0"
-Throttle = "neond00m/throttle@0.1.0"
+Throttle = "neond00m/throttle@0.3.0"
 Richify = "neond00m/richify@0.1.0"

@@ -35,7 +35,7 @@ local tagsToRich = {
 local function actual(str: string, index: number) : number
 	local inTag = false
 	local direction = if index < 0 then -1 else 1
-	for i = if index < 0 then str:len() else 1,
+	for i = if index < 0 then str:len() else 1, 
 		if index < 0 then 1 else str:len(), direction do
 
 		local ch = str:sub(i, i)
@@ -44,18 +44,17 @@ local function actual(str: string, index: number) : number
 				index -= 1
 				inTag = false
 			end
-			-- index -= 1
 		elseif ch == "<" then
 			inTag = true
 		else
 			index -= direction
 		end
-
+		
 		if index == 0 and inTag == false then
 			return i
 		end
 	end
-	return index--actual(str, index) --loo (Does that mean loop?)
+	return actual(str, index) --loo
 end
 
 local function split(self, index: number | nil) --split self.str in half
@@ -69,25 +68,13 @@ local function split(self, index: number | nil) --split self.str in half
 		}
 	end
 	--need to return 3 pieces: before self.s, in between, after self.e
-
-	local divider1 = actual(self.string, (self.s or 0) + 1)
-	local divider2 = actual(self.string, (self.e or len) - 1)
-	if len > 1 then
-		print("divs:", divider1, divider2)
-	end
-
 	return {
 		--what if self.s < 0
-		if len > 3 then self.string:sub(0, divider1 - 1) else "",
-		--
-		self.string:sub(divider1, divider2), --between string, whole if no start and no end
-		--
-		if len > 3 then self.string:sub(divider2 + 1, len) else "",
+		if (self.s or 0) > 0 then self.string:sub(0, actual(self.string, self.s)) else "",
+			self.string:sub(actual(self.string, (self.s or 0) + 1),
+				actual(self.string, (self.e or len))), --between string, whole if no start and no end
+		if (self.e or len) < len then self.string:sub(actual(self.string, self.e + 1), len) else "",
 	}
-end
-
-local function clr_tostring(color: Color3): string
-	return tostring(math.round(color.R * 255)) .. "," .. tostring(math.round(color.G * 255)) .. "," .. tostring(math.round(color.B * 255))
 end
 
 --[=[
@@ -102,7 +89,6 @@ end
     ```
 ]=]
 local function richify(string): Richify
-	print("creating:", string)
 	return setmetatable({
 		string = string,
 		-- edit = nil,
@@ -134,20 +120,15 @@ end
 ]=]
 meta.__call = function(self, value: RichifyInputType)
 	if self.edit then --if previous statement requires another parameter
-		local result = self:edit(value)
-		print("str:", self.string)
-		return result
+		return self:edit(value)
 	else
 		if type(value) == "table" then --edit section of string
 			self.s = value[1]
 			self.e = value[2]
 		elseif value == "color" then
-			print("color")
 			self.edit = function(self, color)
-				print("color edit")
 				local pieces = split(self)
-				print("pieces:", pieces)
-				self.string = pieces[1] .. '<font color="rgb(' .. clr_tostring(color) .. ')">' .. pieces[2]
+				self.string = pieces[1] .. '<font color="rgb(' .. tostring(color) .. ')">' .. pieces[2]
 					.. "</font>" .. pieces[3]
 				self.edit = nil
 				return self
@@ -177,16 +158,13 @@ meta.__call = function(self, value: RichifyInputType)
 				return self
 			end
 		else --assume it is a rich text tag?
-			print("tag")
 			if tagsToRich[value] then --correct tag, ex: 'bold' to 'b'
 				value = tagsToRich[value]
 			end
 			local pieces = split(self)
-			print("pieces:", pieces)
 			self.string = pieces[1] .. "<" .. value .. ">" .. pieces[2] .. "</" .. value .. ">" .. pieces[3]
 		end
 	end
-	print("str:", self.string)
 	return self
 end
 
