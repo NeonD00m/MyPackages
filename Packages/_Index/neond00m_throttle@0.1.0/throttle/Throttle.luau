@@ -8,6 +8,8 @@ local systems: {[string]: number} = {}
 --[=[
     @within Throttle
     @function __call
+    @param time: number -- Time
+    @return boolean
 
     Returns true based on if it has been 'time' since the last success.
     :::caution

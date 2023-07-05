@@ -8,6 +8,8 @@ local systems: {[string]: number} = {}
 --[=[
     @within Throttle
     @function __call
+    @param time: number -- Time
+    @return boolean
 
     Returns true based on if it has been 'time' since the last success.
     :::caution
@@ -26,8 +28,10 @@ return function(time: number): boolean
     local file, line = debug.info(2, "sl")
     local name = file .. ":" .. tostring(line)
 
-    if systems[name] ~= nil and systems[name] + time < os.clock() then
-        return false
+    if systems[name] then
+        if systems[name] + time > os.clock() then
+            return false
+        end
     end
     systems[name] = os.clock()
     return true

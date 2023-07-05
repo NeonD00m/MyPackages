@@ -70,16 +70,19 @@ local function split(self, index: number | nil) --split self.str in half
 	end
 	--need to return 3 pieces: before self.s, in between, after self.e
 
-	local divider1 = actual(self.string, (self.s or 1) + 1)
+	local divider1 = actual(self.string, (self.s or 0) + 1)
 	local divider2 = actual(self.string, (self.e or len) - 1)
+	if len > 1 then
+		print("divs:", divider1, divider2)
+	end
 
 	return {
 		--what if self.s < 0
-		if len > 1 then self.string:sub(0, divider1 - 1) else "",
+		if len > 3 then self.string:sub(0, divider1 - 1) else "",
 		--
 		self.string:sub(divider1, divider2), --between string, whole if no start and no end
 		--
-		if len > 1 then self.string:sub(divider2 + 1, len) else "",
+		if len > 3 then self.string:sub(divider2 + 1, len) else "",
 	}
 end
 

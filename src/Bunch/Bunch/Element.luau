@@ -208,8 +208,8 @@ end
 	local doubled = (Element * 2):result(someNumber)
 	```
 ]=]
-function module.result(e: Element, x: any)
-	for _, op in e.ops do
+function module:result(x: any)
+	for _, op in self.ops do
 		if op[1] == "." then
 			x = x[op[2]]
 		elseif op[1] == ".=" then
@@ -253,6 +253,19 @@ function module.result(e: Element, x: any)
 		end
 	end
 	return x
+end
+
+--[=[
+	@within Element
+	Returns a callback/function that can be called .
+	```lua
+	local doubled = someThing(Element:moreThan(2):toCallback())
+	```
+]=]
+function module:toCallback(): (...any) -> any
+	return function(...)
+		self:result(...)
+	end
 end
 
 return default

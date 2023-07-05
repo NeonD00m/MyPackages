@@ -1,8 +1,12 @@
 --[=[
-    @class Richify
+	@class Richify
 
-    A rich-text customizer library.
-    To see all the rich-text tags [here](https://create.roblox.com/docs/ui/rich-text).
+	A rich-text customizer library.
+	To see all the rich-text tags [here](https://create.roblox.com/docs/ui/rich-text).
+
+	:::warning
+	This library does have some problems and only works in some specific cases, wouldn't recommend using it for now. If I can fix/improve this in the future I will remove this warning.
+	:::
 ]=]
 local meta = {}
 meta.index = meta

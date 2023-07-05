@@ -18,7 +18,8 @@ local count = 0
 
 local function updateText()
     print("count:", count, tostring(count))
-    Label.Text = Richify(tostring(count)) "bold" "color" (Color3.fromRGB(0, 251, 255)).string .. " Clicks"
+    Label.Text = count .. " Clicks"
+    --Label.Text = Richify(tostring(count)) "bold" "color" (Color3.fromRGB(0, 251, 255)).string .. " Clicks"
 end
 updateText()
 
@@ -31,4 +32,4 @@ RunService.Heartbeat:Connect(function()
     end
 end)
 
-return {} --not really important for this example
+return true --not really important for this example
