@@ -12,6 +12,10 @@ classOrder = []
 section = "Bunch"
 classes = ["Bunch", "Element"]
 
+[[classOrder]]
+section = "Middleware"
+classes = ["Middleware", "RateLimiter", "TypeChecker"]
+
 [docusaurus]
 onBrokenLinks = "throw"
 onBrokenMarkdownLinks = "warn"

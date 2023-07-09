@@ -8,14 +8,14 @@ local RateLimiter: RemoteClientMiddleware & RemoteServerMiddleware = require(scr
 local TypeChecker: RemoteClientMiddleware & RemoteServerMiddleware = require(script:WaitForChild("TypeChecker"))
 
 --[=[
-    @prop RateLimiter
+    @prop RateLimiter RemoteClientMiddleware & RemoteServerMiddleware
     @within Middleware
 
     For access to the built-in RateLimiter.
 ]=]
 
 --[=[
-    @prop TypeChecker
+    @prop TypeChecker RemoteClientMiddleware & RemoteServerMiddleware
     @within Middleware
 
     For access to the built-in TypeChecker.
@@ -49,13 +49,13 @@ export type RemoteServerMiddleware = (
 
 --[=[
 	@within Middleware
-	Returns the result of either Middleware.Server or Middleware.Client depending on RunService:IsStudio().
+	Returns the result of either Middleware.Server or Middleware.Client depending on RunService:IsServer().
 	```lua
 	Event:Connect(Middleware.auto(someFunc, someMiddleware))
 	```
 ]=]
-function module.auto(...): () -> nil
-    return if game:GetService("RunService"):IsServer() then module.Server(...) else module.Client(...)
+function module.auto(handler: (...any) -> nil, ...: RemoteClientMiddleware | RemoteServerMiddleware): () -> nil
+    return if game:GetService("RunService"):IsServer() then module.Server(handler, ...) else module.Client(handler, ...)
 end
 
 --[=[

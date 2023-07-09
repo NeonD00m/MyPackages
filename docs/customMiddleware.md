@@ -2,7 +2,8 @@
 sidebar_position: 6
 ---
 
-# Custom Middleware (from [NeoNet](https://neond00m.github.io/NeoNet))
+# Custom Middleware
+(from [NeoNet](https://neond00m.github.io/NeoNet))
 
 Custom middleware is very important for all kinds of
 things like creating loggers or checks to happen
@@ -67,17 +68,15 @@ end
 ## Squash Library Example 
 
 Let's use the [Squash](https://data-oriented-house.github.io/Squash/) library as an example of something you might implement in your own games.
-In a modulescript we could return this after requiring Sqash.
+In a modulescript we could return this after requiring Sqash and later use this as RemoteServerMiddleware.
 ```lua
-return function(isClient: boolean, types: {"string" | "number" | "boolean"}?): (...any) -> (boolean, {any})
-    if isClient then
-        return function(...)
-            local params = {...}
-            for i, v in params do
-                params[i] = Squash[typeof(v)].ser()
-            end
-            return true, params
+return function(typesExpected: {string}?): (...any) -> (boolean, {any})
+    return function(plr, ...)
+        local params = {...}
+        for i, v in params do
+            params[i] = Squash[typesExpected[i]].des(v)
         end
+        return true, params
     end
 end
 ```
