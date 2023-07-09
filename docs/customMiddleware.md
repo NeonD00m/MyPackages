@@ -3,7 +3,7 @@ sidebar_position: 6
 ---
 
 # Custom Middleware
-(from [NeoNet](https://neond00m.github.io/NeoNet))
+(mostly copied from [NeoNet](https://neond00m.github.io/NeoNet) except for the Squash example)
 
 Custom middleware is very important for all kinds of
 things like creating loggers or checks to happen

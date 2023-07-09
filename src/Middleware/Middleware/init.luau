@@ -1,8 +1,8 @@
 --[=[
     @class Middleware
 
-    A small library for creating middleware that can work anywhere. This was originally from NeoNet but since more advanced networking libraries exist now and
-    middleware may be something you want in other circumstances, I decided to turn this into its own package.
+    A small library for creating middleware that can work anywhere. This was originally from NeoNet but since more advanced networking libraries (like [Red](https://redblox.dev/))
+    exist now and middleware may be something you want in other circumstances, I decided to turn this into its own package.
 ]=]
 local RateLimiter: RemoteClientMiddleware & RemoteServerMiddleware = require(script:WaitForChild("RateLimiter"))
 local TypeChecker: RemoteClientMiddleware & RemoteServerMiddleware = require(script:WaitForChild("TypeChecker"))
