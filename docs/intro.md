@@ -14,7 +14,7 @@ These modules are only available as [Wally](https://wally.run/) packages or by d
 | [EventReader](https://neond00m.github.io/MyPackages/api/EventReader) | `eventreader = "neond00m/eventreader@0.1.0"` | Module for events in loops (based on Matter.useEvent) |
 | [Richify](https://neond00m.github.io/MyPackages/api/Richify) | `richify = "neond00m/richify@0.1.0"` | Rich-text customizing Library |
 | [Throttle](https://neond00m.github.io/MyPackages/api/Throttle) | `throttle = "neond00m/throttle@0.3.0"` | Timer function (based on Matter.useThrottle) |
-| [Middleware](https://neond00m.github.io/MyPackages/api/Middleware) | `middleware = "neond00m/middleware@0.1.0"` | Easy and versatile middleware implementation |
+| [Middleware](https://neond00m.github.io/MyPackages/api/Middleware) | `middleware = "neond00m/middleware@0.2.0"` | Easy and versatile middleware implementation |
 
 ## Next steps
 You should dive in to the [API reference](/api/Bunch) for whatever you're interested in!
