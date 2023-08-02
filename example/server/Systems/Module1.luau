@@ -18,8 +18,8 @@ local count = 0
 
 local function updateText()
     print("count:", count, tostring(count))
-    Label.Text = count .. " Clicks"
-    --Label.Text = Richify(tostring(count)) "bold" "color" (Color3.fromRGB(0, 251, 255)).string .. " Clicks"
+    -- Label.Text = count .. " Clicks"
+    Label.Text = Richify(tostring(count)) "bold" "color" (Color3.fromRGB(0, 251, 255)).string .. " Clicks"
 end
 updateText()
 

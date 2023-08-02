@@ -1,12 +1,26 @@
 --[=[
-	@class Richify
+    @class Richify
 
-	A rich-text customizer library.
-	To see all the rich-text tags [here](https://create.roblox.com/docs/ui/rich-text).
+    A rich-text customizer library.
+    To see all the rich-text tags [here](https://create.roblox.com/docs/ui/rich-text).
 
-	:::warning
-	This library does have some problems and only works in some specific cases, wouldn't recommend using it for now. If I can fix/improve this in the future I will remove this warning.
-	:::
+	current example below
+	concepts (sections have not been successfully implemented yet):
+	```lua
+    --                                \/(create object)\/   \/edit section
+    local result: {string: string} = richify "hello world" {0, 5} "stroke"(Color3.new(1, 0, 0))
+    --or non-fusion-style:                                          /\ edit stroke with /\ the color of Red
+    local result: {string: string} = richify("hello world")({0, 5})("stroke")(Color3.new(1, 0, 0))
+
+	--MORE fusion-style:
+	local result: string = richify "hello" {
+		"bold",
+		{
+			"stroke",
+			Color3.new(1, 0, 0)
+		}
+	}
+    ```
 ]=]
 local meta = {}
 meta.index = meta
@@ -39,7 +53,7 @@ local tagsToRich = {
 local function actual(str: string, index: number) : number
 	local inTag = false
 	local direction = if index < 0 then -1 else 1
-	for i = if index < 0 then str:len() else 1, 
+	for i = if index < 0 then str:len() else 1,
 		if index < 0 then 1 else str:len(), direction do
 
 		local ch = str:sub(i, i)
@@ -48,17 +62,18 @@ local function actual(str: string, index: number) : number
 				index -= 1
 				inTag = false
 			end
+			-- index -= 1
 		elseif ch == "<" then
 			inTag = true
 		else
 			index -= direction
 		end
-		
+
 		if index == 0 and inTag == false then
 			return i
 		end
 	end
-	return actual(str, index) --loo
+	return index--actual(str, index) --loo (Does that mean loop?)
 end
 
 local function split(self, index: number | nil) --split self.str in half
@@ -72,19 +87,28 @@ local function split(self, index: number | nil) --split self.str in half
 		}
 	end
 	--need to return 3 pieces: before self.s, in between, after self.e
-	return {
+
+	local divider1 = actual(self.string, (self.s or 0))
+	local divider2 = actual(self.string, (self.e or len))
+
+	return {"", self.string, ""} --[[{
 		--what if self.s < 0
-		if (self.s or 0) > 0 then self.string:sub(0, actual(self.string, self.s)) else "",
-			self.string:sub(actual(self.string, (self.s or 0) + 1),
-				actual(self.string, (self.e or len))), --between string, whole if no start and no end
-		if (self.e or len) < len then self.string:sub(actual(self.string, self.e + 1), len) else "",
-	}
+		self.string:sub(0, divider1 - 1) or "",
+		--
+		self.string:sub(divider1, divider2), --GOAL: between string, whole if no start and no end
+		--
+		self.string:sub(divider2 + 1, len) or "",
+	}]]
+end
+
+local function clr_tostring(color: Color3): string
+	return tostring(math.round(color.R * 255)) .. "," .. tostring(math.round(color.G * 255)) .. "," .. tostring(math.round(color.B * 255))
 end
 
 --[=[
     @within Richify
     @function __call
-    
+	
     The initiator/constructor of a Richify object.
     ```lua
     local result: {string: string} = richify "hello world" {0, 5} "stroke"(Color3.new(1, 0, 0))
@@ -104,15 +128,16 @@ end
 --[=[
     @within Richify
     @function __call
-    
+	
     Richify only has one method which is calling the Richify object.
-    ```lua
-    --                                \/(create object)\/   \/edit section    
-    local result: {string: string} = richify "hello world" {0, 5} "stroke"(Color3.new(1, 0, 0))
+    
+	```lua
+    --                                \/(create object)\/   \/edit section
+    local result: string = (richify "hello" "stroke"(Color3.new(1, 0, 0))).string
     --or non-fusion-style:                                          /\ edit stroke with /\ the color of Red
-    local result: {string: string} = richify("hello world")({0, 5})("stroke")(Color3.new(1, 0, 0))
+    local result: {string: string} = richify("world")("stroke")(Color3.new(1, 0, 0))
     ```
-
+	
     | InputType | Description | Next Parameters
     | -- | -- | -- |
     | {number} | Edit a section of the string | none |
@@ -124,15 +149,18 @@ end
 ]=]
 meta.__call = function(self, value: RichifyInputType)
 	if self.edit then --if previous statement requires another parameter
-		return self:edit(value)
+		local result = self:edit(value)
+		return result
 	else
-		if type(value) == "table" then --edit section of string
-			self.s = value[1]
-			self.e = value[2]
-		elseif value == "color" then
+		--THE SECTION FEATURE IS BROKEN
+		-- if type(value) == "table" then --edit section of string
+		-- 	self.s = value[1]
+		-- 	self.e = value[2]
+		-- else
+		if value == "color" then
 			self.edit = function(self, color)
 				local pieces = split(self)
-				self.string = pieces[1] .. '<font color="rgb(' .. tostring(color) .. ')">' .. pieces[2]
+				self.string = pieces[1] .. '<font color="rgb(' .. clr_tostring(color) .. ')">' .. pieces[2]
 					.. "</font>" .. pieces[3]
 				self.edit = nil
 				return self
