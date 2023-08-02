@@ -1,37 +1,38 @@
 --[=[
-    @class Richify
+	@class Richify
 
-    A rich-text customizer library.
-    To see all the rich-text tags [here](https://create.roblox.com/docs/ui/rich-text).
-
-	current example below
-	concepts (sections have not been successfully implemented yet):
-	```lua
-    --                                \/(create object)\/   \/edit section
-    local result: {string: string} = richify "hello world" {0, 5} "stroke"(Color3.new(1, 0, 0))
-    --or non-fusion-style:                                          /\ edit stroke with /\ the color of Red
-    local result: {string: string} = richify("hello world")({0, 5})("stroke")(Color3.new(1, 0, 0))
-
-	--MORE fusion-style:
-	local result: string = richify "hello" {
-		"bold",
-		{
-			"stroke",
-			Color3.new(1, 0, 0)
-		}
-	}
-    ```
+	A rich-text customizer library.
+	To see all the rich-text tags [here](https://create.roblox.com/docs/ui/rich-text).
 ]=]
+
+-- current example below
+-- 	concepts (sections have not been successfully implemented yet):
+-- 	```lua
+-- 	--                                \/(create object)\/   \/edit section
+-- 	local result: {string: string} = richify "hello world" {0, 5} "stroke"(Color3.new(1, 0, 0))
+-- 	--or non-fusion-style:                                          /\ edit stroke with /\ the color of Red
+-- 	local result: {string: string} = richify("hello world")({0, 5})("stroke")(Color3.new(1, 0, 0))
+
+-- 	--MORE fusion-style:
+-- 	local result: string = richify "hello" {
+-- 		"bold",
+-- 		{
+-- 			"stroke",
+-- 			Color3.new(1, 0, 0)
+-- 		}
+-- 	}
+-- 	```
+
 local meta = {}
 meta.index = meta
 
 export type RichifyInputType = {number} | "color" | "size" | "stroke" | "insert" | "b" | "i" | Color3 | number
 
 --[=[
-    @within Richify
-    @type {string: string,__call: (InputType) -> Richify}
-    
-    The type for the richify object after initializing one with a string.
+	@within Richify
+	@type Richify { string: string, __call: (InputType) -> Richify }
+
+	The type for the richify object after initializing one with a string.
 ]=]
 export type Richify = {
     string: string,
@@ -39,10 +40,14 @@ export type Richify = {
 }
 
 --[=[
-    @within Richify
-    @type Custom Tags
-    
-    Just some shortened tag names for ease of use.
+	@within Richify
+	@type Tags { bold = "b", italic = "i", }
+
+	Just some shortened tag names for ease of use.
+	Example: turns "bold" into the rich text tag "b" here:
+	```lua
+	local boldHelloWorld = richify "hello world" "bold"
+	```
 ]=]
 local tagsToRich = {
 	bold = "b",
@@ -106,15 +111,13 @@ local function clr_tostring(color: Color3): string
 end
 
 --[=[
-    @within Richify
-    @function __call
-	
-    The initiator/constructor of a Richify object.
-    ```lua
-    local result: {string: string} = richify "hello world" {0, 5} "stroke"(Color3.new(1, 0, 0))
-    --or non-fusion-style:
-    local result: {string: string} = richify("hello world")({0, 5})("stroke")(Color3.new(1, 0, 0))
-    ```
+	@within Richify
+	@function __call
+
+	The initiator/constructor of a Richify object.
+	```lua
+	local result: Richify = richify "hello world"
+	```
 ]=]
 local function richify(string): Richify
 	return setmetatable({
@@ -126,26 +129,26 @@ local function richify(string): Richify
 end
 
 --[=[
-    @within Richify
-    @function __call
-	
-    Richify only has one method which is calling the Richify object.
-    
+	@within Richify
+	@function __call
+
+	Richify only has one method which is calling the Richify object.
+
 	```lua
-    --                                \/(create object)\/   \/edit section
-    local result: string = (richify "hello" "stroke"(Color3.new(1, 0, 0))).string
-    --or non-fusion-style:                                          /\ edit stroke with /\ the color of Red
-    local result: {string: string} = richify("world")("stroke")(Color3.new(1, 0, 0))
-    ```
-	
-    | InputType | Description | Next Parameters
-    | -- | -- | -- |
-    | {number} | Edit a section of the string | none |
-    | "color" | Edit the color of the section | (color: Color3) |
-    | "size" | Edit the font size of the section | (size: number) |
-    | "stroke" | Edit the stroke of the section | (color: Color3, joins: string, thickness: number, transparency: number) |
-    | "insert" | Insert a string at a specific spot | {[1]: number, [2]: string} |
-    | (any rich text tag or shortened tag) | Add a rich text tag to the section | none |
+	--                         			\/ create object
+	local result: string = (richify "hello" "stroke"(Color3.new(1, 0, 0))).string
+	--                                          /\ edit stroke with the color of Red
+	local result: Richify = richify("world")("stroke")(Color3.new(1, 0, 0))
+	```
+
+	| InputType | Description | Next Parameters
+	| -- | -- | -- |
+	| {number} (NOT IMPLEMENTED) | Edit a section of the string | none |
+	| "color" | Edit the color of the section | (color: Color3) |
+	| "size" | Edit the font size of the section | (size: number) |
+	| "stroke" | Edit the stroke of the section | (color: Color3, joins: string, thickness: number, transparency: number) |
+	| "insert" | Insert a string at a specific spot | {[1]: number, [2]: string} |
+	| (any rich text tag or shortened tag) | Add a rich text tag to the section | none |
 ]=]
 meta.__call = function(self, value: RichifyInputType)
 	if self.edit then --if previous statement requires another parameter
