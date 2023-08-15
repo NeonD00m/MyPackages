@@ -48,9 +48,9 @@ function module:__index(index): Element
 		return module[index]
 	end
 	return addOp(self, {".", index})
-	
+
 	--do I want to create a new X object at the risk of increasing complexity?
-	
+
 	--local child = new(self)
 	--addOp(self, {".", child})
 	--return child
@@ -172,7 +172,7 @@ end
 	local positiveOrZero = someBunch:filter(Element:moreThanOrEqualTo(0))
 	```
 ]=]
-function module:moreThanorEqualTo(value: any): Element
+function module:moreThanOrEqualTo(value: any): Element
 	return addOp(
 		addOp(
 			self,
@@ -257,7 +257,7 @@ end
 
 --[=[
 	@within Element
-	Returns a callback/function that can be called .
+	Returns a callback/function that can be called that automatically sends self as the first parameter.
 	```lua
 	local doubled = someThing(Element:moreThan(2):toCallback())
 	```

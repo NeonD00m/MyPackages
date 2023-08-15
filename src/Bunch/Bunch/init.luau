@@ -44,7 +44,7 @@ end
 	```
 ]=]
 function Bunch:isList(): boolean
-	return table.maxn(self) > 0 
+	return table.maxn(self) > 0
 end
 
 --[=[
@@ -94,16 +94,12 @@ end
 	```
 ]=]
 function Bunch:filter<T>(operations: Element.Element): Bunch<T>
-	print("Bunch:filter got self:", self, " and Element ops:", operations.ops)
+	-- print("Bunch:filter got self:", self, " and Element ops:", operations.ops)
 	for i, v in self do
 		if operations:result(v) then
 			continue
 		end
-		if self:isList() then
-			table.remove(self, i)
-		else
-			self[i] = nil
-		end
+		self:remove(i)
 	end
 	return self
 end
@@ -117,7 +113,7 @@ end
 ]=]
 function Bunch:remove<T>(index: any): T
 	local value = self[index]
-	if table.maxn(self) > 0 then
+	if self:isList() then
 		table.remove(self, index)
 	else
 		self[index] = nil
