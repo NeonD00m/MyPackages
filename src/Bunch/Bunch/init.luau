@@ -8,10 +8,13 @@ local Element = require(script.Element)
 
 export type Bunch<T> = {
 	--new: ({[any]: T}, {}?) -> Bunch<T>,
-	map: (Bunch<T>, Element.Element) -> nil,
-	mapCall: (Bunch<T>, (number, T, ...any) -> nil, ...any) -> nil,
+	map: (Bunch<T>, Element.Element) -> Bunch<T>,
+	mapCall: (Bunch<T>, (number, T, ...any) -> nil, ...any) -> Bunch<T>,
 	filter: (Bunch<T>, Element.Element) -> Bunch<T>,
-	filterPairs: (Bunch<T>, Element.Element) -> Bunch<T>
+	filterCall: (Bunch<T>, (T) -> boolean) -> Bunch<T>,
+	merge: (Bunch<T>, Bunch<T>) -> Bunch<T>,
+	range: (Bunch<T>, number, number?) -> nil,
+	remove: (Bunch<T>, any) -> T,
 }
 
 --[=[
@@ -106,6 +109,25 @@ end
 
 --[=[
 	@within Bunch
+	Returns a new bunch object that is filtered by the given function.
+
+	```lua
+	local evenOnly = someBunch:filter(function(x) return x % 2 == 0 end)
+	```
+]=]
+function Bunch:filterCall<T>(operation: (T) -> boolean): Bunch<T>
+	-- print("Bunch:filter got self:", self, " and Element ops:", operations.ops)
+	for i, v in self do
+		if operation(v) then
+			continue
+		end
+		self:remove(i)
+	end
+	return self
+end
+
+--[=[
+	@within Bunch
 	Returns the value at the index after removing it from the bunch object.
 	```lua
 	local removed = someBunch:remove("someProperty")
@@ -133,9 +155,9 @@ function Bunch:range<T>(from: number, to: number?): Bunch<T>?
 		warn("[Bunch] Attempted to use Bunch:range on a non-list object. Consider making sure the Bunch is a list.")
 		return
 	end
-
-	local result = table.create(to - from)
-	for i = from, to or table.maxn(self) do
+	to = to or table.maxn(self)
+	local result = table.create(to :: number - from)
+	for i = from, to :: number do
 		table.insert(result, self[i])
 	end
 	return Bunch.new(result)

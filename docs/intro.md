@@ -10,7 +10,7 @@ These modules are only available as [Wally](https://wally.run/) packages or by d
 
 | Module | Dependency | Description |
 | -- | -- | -- |
-| [Bunch](https://neond00m.github.io/MyPackages/api/Bunch) | `bunch = "neond00m/bunch@0.3.0"` | Collection library with a simplified lambda system |
+| [Bunch](https://neond00m.github.io/MyPackages/api/Bunch) | `bunch = "neond00m/bunch@0.4.0"` | Collection library with a simplified lambda system |
 | [EventReader](https://neond00m.github.io/MyPackages/api/EventReader) | `eventreader = "neond00m/eventreader@0.1.0"` | Module for events in loops (based on Matter.useEvent) |
 | [Richify](https://neond00m.github.io/MyPackages/api/Richify) | `richify = "neond00m/richify@0.3.0"` | Rich-text customizing Library |
 | [Throttle](https://neond00m.github.io/MyPackages/api/Throttle) | `throttle = "neond00m/throttle@0.3.0"` | Timer function (based on Matter.useThrottle) |

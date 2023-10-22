@@ -6,7 +6,7 @@
 ]=]
 
 export type Element = {
-	ops: {},
+	-- ops: {},
 	result: (Element, any) -> any,
 	equals: (Element, any) -> Element,
 	lessThan: (Element, any) -> Element,
