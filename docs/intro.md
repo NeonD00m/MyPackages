@@ -10,6 +10,7 @@ These modules are only available as [Wally](https://wally.run/) packages or by d
 
 | Module | Dependency | Description |
 | -- | -- | -- |
+| [InpAct](https://neond00m.github.io/MyPackages/api/InpAct) | `inpact = "neond00m/inpact@0.3.0"` | Easy and versatile middleware implementation |
 | [Bunch](https://neond00m.github.io/MyPackages/api/Bunch) | `bunch = "neond00m/bunch@0.4.0"` | Collection library with a simplified lambda system |
 | [EventReader](https://neond00m.github.io/MyPackages/api/EventReader) | `eventreader = "neond00m/eventreader@0.1.0"` | Module for events in loops (based on Matter.useEvent) |
 | [Richify](https://neond00m.github.io/MyPackages/api/Richify) | `richify = "neond00m/richify@0.3.0"` | Rich-text customizing Library |
@@ -17,6 +18,6 @@ These modules are only available as [Wally](https://wally.run/) packages or by d
 | [Middleware](https://neond00m.github.io/MyPackages/api/Middleware) | `middleware = "neond00m/middleware@0.2.0"` | Easy and versatile middleware implementation |
 
 ## Next steps
-You should dive in to the [API reference](/api/Bunch) for whatever you're interested in!
+You should dive in to the [API reference](/api/InpAct) for whatever you're interested in!
 
 Documentation will be improved on and added to with time.
