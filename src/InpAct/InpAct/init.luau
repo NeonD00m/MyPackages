@@ -104,7 +104,7 @@ local function newButton(name: string, options: {
 			test.Name = name
 			test.Active = not options.Draggable
 			test:SetAttribute("Draggable", options.Draggable)
-			test.Image = `http://www.roblox.com/asset/?id={options.Icon or 9808871841}`
+			test.Image = "http://www.roblox.com/asset/?id=" .. (options.Icon or 9808871841)
 			test.AnchorPoint = Vector2.new(0.5, 0.5)
 			test.BackgroundColor3 = Color3.fromRGB(0, 0, 0)
 			test.BackgroundTransparency = 0.5
@@ -132,8 +132,8 @@ end
 	Creates an Input Axis.
 	```lua
 	InpAct:CreateAxis("ShootGun", {Enum.UserInputType.MouseButton1, Enum.KeyCode.ButtonR2}, function(input: InputObject)
-        print("pow")
-    end)
+		print("pow")
+	end)
 	```
 ]=]
 function library:CreateAxis(name: string, options: {InputType}?, onInput: (InputObject) -> nil)
@@ -169,17 +169,17 @@ end
 	InpAct:SetInputs("Reload", {Enum.KeyCode.R})
 	```
 ]=]
-function library:SetInputs(name, ...)
+function library:SetInputs(name: string, inputs: {InputType})
 	inputAxes[name].Inputs = {}
-	library:AddInputs(name, ...)
+	library:AddInputs(name, inputs)
 end
 
 --[=[
 	@within InpAct
 	Resets all the InputTypes to the ones originally defined with the Input Axis.
 	```lua
-    InpAct:CreateAxis("Reload", {Enum.KeyCode.R}, someFunction)
-    ...
+	InpAct:CreateAxis("Reload", {Enum.KeyCode.R}, someFunction)
+	--...
 	InpAct:ResetInputs("Reload")
 	```
 ]=]
@@ -209,12 +209,12 @@ end
 	Creates and connects a button to an Input Axis.
 	```lua
 	InpAct:AddButton("Reload", {
-        CustomButton = nil,  --If you want to connect your own TextButton or ImageButton instead
-        DefaultPosition = UDim2.fromScale(0.759, 0.667), --DefaultSize because eventually mobile control settings are coming
-        DefaultSize = UDim2.fromOffset(70, 70), --DefaultSize because eventually mobile control settings are coming
-        Draggable = true, --true lets the players hold a click on the button while dragging away
-        Icon = 9808870392,  --the image displayed on the button
-    })
+		CustomButton = nil,  --If you want to connect your own TextButton or ImageButton instead
+		DefaultPosition = UDim2.fromScale(0.759, 0.667), --DefaultSize because eventually mobile control settings are coming
+		DefaultSize = UDim2.fromOffset(70, 70), --DefaultSize because eventually mobile control settings are coming
+		Draggable = true, --true lets the players hold a click on the button while dragging away
+		Icon = 9808870392,  --the image displayed on the button
+	})
 	```
 ]=]
 function library:AddButton(name: string, options: {
